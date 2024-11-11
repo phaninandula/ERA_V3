@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Data Preprocessing & Augmentation</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Text Data Preprocessing & Augmentation</h1>
+        
+        <div class="input-section">
+            <h2>User Inputs</h2>
+            <div class="input-box">
+                <h3>Upload Text File</h3>
+                <input type="file" id="fileInput" accept=".txt" />
+            </div>
+            <div class="input-box">
+                <h3>Select Model for Tokenization</h3>
+                <select id="modelSelect">
+                    <option value="r50k_base">R50K Base</option>
+                    <option value="p50k_base">P50K Base</option>
+                    <option value="cl100k_base">CL100K Base</option>
+                    <option value="o200k_base">O200K Base</option>
+                    <option value="gpt2">GPT-2</option>
+                    <!-- Add more models as needed -->
+                </select>
+            </div>
+            <button id="uploadButton">Upload</button>
+        </div>
+
+        <div class="results-section">
+            <h2>Output Results</h2>
+            <div class="output-box">
+                <h3>Text in Uploaded File:</h3>
+                <div id="original-text" class="results"></div>
+            </div>
+
+            <div class="output-box">
+                <h3>Tokenization Results:</h3>
+                <div id="tokens" class="results"></div>
+            </div>
+
+            <div class="output-box">
+                <h3>Token IDs:</h3>
+                <div id="token-ids" class="results"></div>
+            </div>
+
+            <div class="output-box">
+                <h3>Number of Tokens:</h3>
+                <div id="num-tokens" class="results"></div>
+            </div>
+
+            <div class="output-box">
+                <h3>Token Bytes:</h3>
+                <div id="token-bytes" class="results"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="static/script.js"></script>
+</body>
+</html>
