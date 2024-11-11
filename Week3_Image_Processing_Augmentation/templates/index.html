@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Image Processing Tool</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Advanced Image Processing Tool</h1>
+        </header>
+        
+        <main>
+            <div class="left-panel">
+                <!-- Image Upload Section -->
+                <section class="upload-section">
+                    <h2>Select Image</h2>
+                    <div class="upload-box" id="uploadBox">
+                        <input type="file" id="imageInput" accept="image/*" hidden>
+                        <div class="upload-content">
+                            <img src="https://img.icons8.com/ios/50/000000/upload--v1.png" alt="upload">
+                            <p>Drag & Drop your image or <span class="browse-text">Browse</span></p>
+                        </div>
+                    </div>
+                    <div id="previewContainer" class="preview-container" style="display: none;">
+                        <img id="imagePreview" src="" alt="Preview">
+                        <button id="changeImage" class="change-image-btn">Change Image</button>
+                    </div>
+                </section>
+
+                <!-- Basic Image Processing Section -->
+                <section class="processing-section">
+                    <h2>Basic Image Processing Methods</h2>
+                    <div class="options-grid">
+                        <label class="option-card" data-tooltip="Resizes the image to a standard size (e.g., 256x256 pixels). Useful for maintaining consistent image dimensions and reducing computational load.">
+                            <input type="checkbox" id="resize">
+                            <span class="option-text">Resize</span>
+                            <i class="info-icon">i</i>
+                        </label>
+                        
+                        <label class="option-card" data-tooltip="Converts color images to grayscale. Useful when color information is not crucial and for reducing model complexity in machine learning applications.">
+                            <input type="checkbox" id="grayscale">
+                            <span class="option-text">Grayscale</span>
+                            <i class="info-icon">i</i>
+                        </label>
+                        
+                        <label class="option-card" data-tooltip="Scales pixel values to a standard range (typically 0-1). Essential for machine learning models to process images consistently.">
+                            <input type="checkbox" id="normalize">
+                            <span class="option-text">Normalize</span>
+                            <i class="info-icon">i</i>
+                        </label>
+                        
+                        <label class="option-card" data-tooltip="Crops the image from the center. Useful for focusing on the main content of the image while maintaining aspect ratio.">
+                            <input type="checkbox" id="center_crop">
+                            <span class="option-text">Center Crop</span>
+                            <i class="info-icon">i</i>
+                        </label>
+                    </div>
+                    <div class="progress-bar" id="processingProgress">
+                        <div class="progress"></div>
+                    </div>
+                    <button id="processButton" class="process-btn">Apply Processing</button>
+                </section>
+
+                <!-- Data Augmentation Section -->
+                <section class="augmentation-section">
+                    <h2>Image Augmentation Methods</h2>
+                    <div class="options-grid">
+                        <label class="option-card" data-tooltip="Randomly crops portions of the image. Helps models learn to recognize objects regardless of their position in the image.">
+                            <input type="checkbox" id="random_crop">
+                            <span class="option-text">Random Crop</span>
+                            <i class="info-icon">i</i>
+                        </label>
+                        
+                        <label class="option-card" data-tooltip="Flips the image horizontally. Useful for training models to recognize objects regardless of their horizontal orientation.">
+                            <input type="checkbox" id="horizontal_flip">
+                            <span class="option-text">Horizontal Flip</span>
+                            <i class="info-icon">i</i>
+                        </label>
+                        
+                        <label class="option-card" data-tooltip="Rotates the image by a random angle. Helps models become invariant to object orientation.">
+                            <input type="checkbox" id="rotation">
+                            <span class="option-text">Random Rotation</span>
+                            <i class="info-icon">i</i>
+                        </label>
+                        
+                        <label class="option-card" data-tooltip="Randomly adjusts brightness, contrast, and saturation. Helps models handle varying lighting conditions.">
+                            <input type="checkbox" id="color_jitter">
+                            <span class="option-text">Color Jitter</span>
+                            <i class="info-icon">i</i>
+                        </label>
+                        
+                        <label class="option-card" data-tooltip="Randomly erases rectangular regions. Helps prevent overfitting and improves robustness to occlusions.">
+                            <input type="checkbox" id="random_erasing">
+                            <span class="option-text">Random Erasing</span>
+                            <i class="info-icon">i</i>
+                        </label>
+                        
+                        <label class="option-card" data-tooltip="Applies elastic deformations to the image. Useful for medical imaging and when dealing with non-rigid objects.">
+                            <input type="checkbox" id="elastic_transform">
+                            <span class="option-text">Elastic Transform</span>
+                            <i class="info-icon">i</i>
+                        </label>
+                        
+                        <label class="option-card" data-tooltip="Adds random Gaussian noise. Helps models become robust to image noise and sensor variations.">
+                            <input type="checkbox" id="noise">
+                            <span class="option-text">Add Noise</span>
+                            <i class="info-icon">i</i>
+                        </label>
+                    </div>
+                    <div class="progress-bar" id="augmentationProgress">
+                        <div class="progress"></div>
+                    </div>
+                    <button id="augmentButton" class="process-btn">Apply Augmentation</button>
+                </section>
+
+                <!-- Image Enhancement Section -->
+                <section class="enhancement-section">
+                    <h2>Image Enhancement Methods</h2>
+                    <div class="options-grid">
+                        <label class="option-card" data-tooltip="Equalizes the image histogram. Improves contrast and helps in revealing details in both dark and bright regions.">
+                            <input type="checkbox" id="histogram_equalization">
+                            <span class="option-text">Histogram Equalization</span>
+                            <i class="info-icon">i</i>
+                        </label>
+                        
+                        <label class="option-card" data-tooltip="Adjusts image brightness. Useful for correcting under or over-exposed images.">
+                            <input type="checkbox" id="adjust_brightness">
+                            <span class="option-text">Adjust Brightness</span>
+                            <i class="info-icon">i</i>
+                        </label>
+                        
+                        <label class="option-card" data-tooltip="Modifies image contrast. Helps in enhancing the difference between light and dark areas.">
+                            <input type="checkbox" id="adjust_contrast">
+                            <span class="option-text">Adjust Contrast</span>
+                            <i class="info-icon">i</i>
+                        </label>
+                        
+                        <label class="option-card" data-tooltip="Changes color intensity. Useful for enhancing or reducing color vibrancy.">
+                            <input type="checkbox" id="adjust_saturation">
+                            <span class="option-text">Adjust Saturation</span>
+                            <i class="info-icon">i</i>
+                        </label>
+                        
+                        <label class="option-card" data-tooltip="Applies Gaussian blur. Useful for noise reduction and creating soft focus effects.">
+                            <input type="checkbox" id="gaussian_blur">
+                            <span class="option-text">Gaussian Blur</span>
+                            <i class="info-icon">i</i>
+                        </label>
+                        
+                        <label class="option-card" data-tooltip="Inverts colors above a threshold. Creates artistic effects and can help in highlighting certain features.">
+                            <input type="checkbox" id="solarize">
+                            <span class="option-text">Solarize</span>
+                            <i class="info-icon">i</i>
+                        </label>
+                        
+                        <label class="option-card" data-tooltip="Reduces the number of colors. Useful for creating artistic effects and reducing image complexity.">
+                            <input type="checkbox" id="posterize">
+                            <span class="option-text">Posterize</span>
+                            <i class="info-icon">i</i>
+                        </label>
+                        
+                        <label class="option-card" data-tooltip="Enhances edge definition. Useful for highlighting details and improving image clarity.">
+                            <input type="checkbox" id="adjust_sharpness">
+                            <span class="option-text">Adjust Sharpness</span>
+                            <i class="info-icon">i</i>
+                        </label>
+                    </div>
+                    <div class="progress-bar" id="enhancementProgress">
+                        <div class="progress"></div>
+                    </div>
+                    <button id="enhanceButton" class="process-btn">Apply Enhancement</button>
+                </section>
+            </div>
+
+            <div class="right-panel">
+                <!-- Results Tabs -->
+                <div class="results-tabs">
+                    <button class="tab-button active" data-tab="processing">Basic Processing</button>
+                    <button class="tab-button" data-tab="augmentation">Augmentation</button>
+                    <button class="tab-button" data-tab="enhancement">Enhancement</button>
+                </div>
+
+                <!-- Results Sections -->
+                <section class="results-section">
+                    <div id="processingResults" class="results-container active">
+                        <h2>Basic Image Processing Results</h2>
+                        <div class="results-grid"></div>
+                    </div>
+                    
+                    <div id="augmentationResults" class="results-container">
+                        <h2>Image Augmentation Results</h2>
+                        <div class="results-grid"></div>
+                    </div>
+                    
+                    <div id="enhancementResults" class="results-container">
+                        <h2>Image Enhancement Results</h2>
+                        <div class="results-grid"></div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
